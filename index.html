@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botón Aleatorio</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            position: relative;
+            text-align: center;
+            width: 100vw;
+            height: 100vh;
+        }
+        #text, #randomButton {
+            position: absolute;
+            margin: 0 1em; /* margen para evitar que se corte el texto */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <p id="text">Este es un texto que cambiará de posición al hacer clic en el botón.</p>
+        <button id="randomButton" onclick="moveButton()">Siguiente</button>
+    </div>
+
+    <script>
+        let clickCount = 0;
+        const distanceCm = 2; // Cambia este valor para ajustar la distancia en cm
+        const distancePx = distanceCm * 37.7953; // Conversión de cm a px
+        const messages = [
+            "Esta es una prueba de la página web en desarrollo",
+            "Presiona aquí para continuar",
+            "Ahí no, presiona aquí!!",
+            "mmmm mentira, aquí es donde debes presionar",
+            "mentira solo dale en siguiente",
+            "Este es un proyecto en el que he trabajado este receso, es para una empresa que me está poniendo a prueba para poderme contratar y tener una pasantía junior",
+            "Mentira te estoy tomando el pelo, solo dale en siguiente y espero tu opinión al respecto cuando lo veas"
+        ];
+
+        function moveButton() {
+            const button = document.getElementById('randomButton');
+            const text = document.getElementById('text');
+            const container = document.querySelector('.container');
+
+            const messageIndex = clickCount % messages.length;
+
+            if (clickCount < messages.length - 1) {
+                const randomX = Math.random() * (container.clientWidth - button.clientWidth - 2 * 16);
+                const randomY = Math.random() * (container.clientHeight - button.clientHeight - distancePx - 2 * 16);
+
+                button.style.left = `${randomX + 16}px`;
+                button.style.top = `${randomY + distancePx + 16}px`;
+                text.style.left = `${randomX + 16}px`;
+                text.style.top = `${randomY + 16}px`;
+            } else {
+                // Mostrar la página de flores
+                window.location.href = 'flower.html'; // Cambiar 'flores.html' por la ruta de tu página de flores
+                return; // Evitar que continúe después de redirigir
+            }
+
+            text.innerText = messages[messageIndex];
+
+            clickCount++;
+        }
+
+        // Iniciar el botón y el texto en el centro
+        document.addEventListener('DOMContentLoaded', () => {
+            const button = document.getElementById('randomButton');
+            const text = document.getElementById('text');
+
+            button.style.left = '50%';
+            button.style.top = `calc(50% + ${distanceCm}cm)`;
+            button.style.transform = 'translate(-50%, -50%)';
+            text.style.left = '50%';
+            text.style.top = `calc(50% - ${distanceCm}cm)`;
+            text.style.transform = 'translate(-50%, -50%)';
+
+            text.innerText = messages[0]; // Mostrar el primer mensaje al cargar la página
+        });
+    </script>
+</body>
+</html>
+
+
+
